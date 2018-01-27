@@ -14,3 +14,21 @@ of various skill levels/techniques.
 # install.packages(devtools)
 devtools::install_github("chasemc/Jan2018ShinyMeetupCRUG")
 ```
+
+
+#### New to R:
+- Where to start:
+  - [swirlstats.com](swirlstats.com)
+  - [r4ds.had.co.nz](r4ds.had.co.nz)
+    - Then move on to [adv-r.had.co.nz](adv-r.had.co.nz)
+#### Where to find answers:
+- [stackexchange.com](stackexchange.com)
+- [community.rstudio.com ](community.rstudio.com)
+
+#### New to Shiny
+- [shiny.rstudio.com/tutorial](shiny.rstudio.com/tutorial)
+- [shiny.rstudio.com/gallery](shiny.rstudio.com/gallery)
+- [shiny.rstudio.com/gallery/widget-gallery](shiny.rstudio.com/gallery/widget-gallery)
+- [https://deanattali.com/blog/building-shiny-apps-tutorial/](https://deanattali.com/blog/building-shiny-apps-tutorial/)
+- [https://github.com/rstudio/webinars](https://github.com/rstudio/webinars)
+
