@@ -1,0 +1,97 @@
+---
+title: "README"
+author: "Chase Clark"
+date: "January 26, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This app takes the responses from a Google Forms survey and correlates to members attending a Meetup.com Meetup
+
+
+Skills: 
+- Shiny
+- Reading from API
+  - Google Sheets ApI 
+  - Meetup API
+- Parsing data tables and json structures 
+- Organizing results via Shiny HTML tags (tables)
+- Simple base R plot
+- Reactive UI elements (reactive slider bars)
+
+
+Challenges:
+
+- Can you add a button that will shuffle groups?
+- Can you add a skill-summary graph under each group column?
+- Can you use clustering of skill levels to make the groups instead of simple cutoffs?
+
+
+
+
+
+Note: For privacy I have generated a table of random names with a variety of skill levels. I will also explain the meetup API
+I used but will remove the actual API I used for anonymity of CRUG participants.
+
+
+
+```{r}
+library(tidyverse)
+library(googlesheets)
+library(randomNames)
+library(magrittr)
+
+set.seed(42)
+# Generate random names
+firstNames  <- randomNames::randomNames(75, which.names = "first")
+lastNames   <- randomNames::randomNames(75, which.names = "last")
+
+# Create Tibble
+responses <- bind_cols(a=firstNames,b=lastNames)
+
+# Recapitulate some columns that represent questions in the Google Forms survey
+responses %<>% mutate("What is your name? (First and Last)"=paste(a,b)) %>%  dplyr::select(`What is your name? (First and Last)`)
+
+
+# Make some artificial data with easy clusters
+
+set.seed(1)
+    a<-sample(seq(from = 1, to = 3, by = 1), size = 25, replace = TRUE)
+    b<-sample(seq(from = 4, to = 6, by = 1), size = 25, replace = TRUE)
+    c<-sample(seq(from = 7, to = 10, by = 1), size = 25, replace = TRUE)
+z1<-(c(a,b,c))
+set.seed(10)
+    a<-sample(seq(from = 1, to = 3, by = 1), size = 25, replace = TRUE)
+    b<-sample(seq(from = 4, to = 6, by = 1), size = 25, replace = TRUE)
+    c<-sample(seq(from = 7, to = 10, by = 1), size = 25, replace = TRUE)
+z2<-(c(a,b,c))
+
+
+responses %<>% mutate("Experience with R"= z1)
+responses %<>% mutate("Experience with Shiny"= z2)
+
+
+
+
+
+
+
+
+saveRDS(responses, "responses.RDS")
+
+# For info on how to pull using the googlesheets API, please see Jenny Brian's GitHub
+# https://github.com/jennybc/googlesheets
+        # surveyResponses <- gs_key(" Insert Key Here ")
+        #      surveyResponses %>%  gs_read(ws = "Form Responses 1")
+
+
+
+```
+
+
+
+
+
