@@ -2,6 +2,8 @@
 
 library(shiny)
 library(ggplot2)  # for the diamonds dataset
+library(gapminder)
+library(dplyr)
 
 ui <- fluidPage(
   title = "Examples of DataTables",
@@ -22,7 +24,7 @@ ui <- fluidPage(
 
       h4("Ideas:"),
       tags$ul(
-        tags$li("Make existing charts interactive, everybody like interactive."),
+        tags$li("Make existing charts interactive, everybody likes interactive."),
         tags$li("Make a new ggplot graph. An interactive scatter plot of some sort."),
         tags$li("When you hover over a data point, descriptive text pops up. (ggplot & shiny or plotly"),
         tags$li("Have summary stats appear below scatterplot about datapoints that are selected.")
