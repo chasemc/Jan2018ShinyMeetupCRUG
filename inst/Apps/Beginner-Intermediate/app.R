@@ -25,9 +25,9 @@ ui <- fluidPage(
       h4("Ideas:"),
       tags$ul(
         tags$li("Make existing charts interactive, everybody likes interactive."),
-        tags$li("Make a new ggplot graph. An interactive scatter plot of some sort."),
-        tags$li("When you hover over a data point, descriptive text pops up. (ggplot & shiny or plotly"),
-        tags$li("Have summary stats appear below scatterplot about datapoints that are selected.")
+        tags$li("Make a new interactive ggplot scatter plot."),
+        tags$li("When you hover over a data point, descriptive text pops up. (ggplot & shiny, or plotly)"),
+        tags$li("Have summary stats appear below scatterplot about selected (brushed) datapoints.")
 
 
       )

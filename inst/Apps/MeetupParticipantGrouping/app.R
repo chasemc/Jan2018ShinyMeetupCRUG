@@ -16,26 +16,21 @@ library(jsonlite)
 library(magrittr)
 
 
-
-
-
 # Read current list of people attending the "Happy New YeaR!" CRUG meetup
- listFromAPI<-read_json("https://api.meetup.com/ChicagoRUG/events/245872598/rsvps?photo-host=public&sig_id=233599547&sig=7a3d4fd40ce7529025f30a0f0839c346c55a4fc5")
- saveRDS(listFromAPI,"ll.rds")
-listFromAPI<-readRDS("C:/Users/CMC/Documents/GitHub/Jan2017MeetupShiny/Workshop/ll.rds")
+# To make the app read an actusal API, uncomment the readJSON and delete the readRDS line
 
+# listFromAPI<-read_json("https://api.meetup.com/ChicagoRUG/events/245872598/rsvps?photo-host=public&sig_id=233599547&sig=7a3d4fd40ce7529025f30a0f0839c346c55a4fc5")
 
-
+listFromAPI <- readRDS("C:/Users/CMC/Documents/GitHub/Jan2017MeetupShiny/Workshop/ll.rds")
 
 # extract member info for people attending event (will return both attending and not attending)
 # Returns a list of lists
 memberInfo <- listFromAPI %>% map("member")
 
 # Turn list of lists into tibble (tidyverse version of a data frame)
-memberInfo %<>% map(~unlist(.,recursive = F)) %>% bind_rows()
+memberInfo %<>% map(~unlist(., recursive = F)) %>% bind_rows()
 
-memberInfo <- bind_cols(photo.photo_link=NA,name=NA)
-
+memberInfo <- bind_cols(photo.photo_link=NA, name=NA)
 
 
 
@@ -55,21 +50,16 @@ ui <- fluidPage(
   # Sidebar with a slider input for number of bins
   sidebarLayout(
     sidebarPanel(
-
-
-      uiOutput("splitGroupsUI")
-
-      ,
+      uiOutput("splitGroupsUI"),
       uiOutput("binUI")
     ),
+
     # Show a plot of the generated distribution
     mainPanel(
       # Use imageOutput to place the image on the page
-      #tableOutput('mytable')
+          #tableOutput('mytable')
       uiOutput("htmlTable"),
       plotOutput("pp")
-
-
     )
   )
   )
@@ -77,32 +67,26 @@ ui <- fluidPage(
 # Define server logic required to draw a histogram
 server <- function(input, output) {
 
-
-
   responses <- reactive({
-    # Read in fake data, real data would be accessed with code like that commented out below
-    readRDS("responses.RDS")
+    # Read in fake data
+     readRDS("responses.RDS")
 
-    #  surveyResponses <- gs_key(" Insert Key Here ")
-    #  surveyResponses %>%  gs_read(ws = "Form Responses 1")
+    # Real data would be accessed with code like that commented out below and deleting the readRDS
+    # surveyResponses <- gs_key(" Insert Key Here ")
+    # surveyResponses %>%  gs_read(ws = "Form Responses 1")
 
   })
 
 
-  output$splitGroupsUI<- renderUI({
+  output$splitGroupsUI <- renderUI({
 
-        sliderInput("splitGroups",
+      sliderInput("splitGroups",
                     "Experience Level at which to Split Groups",
                     min = 1,
                     max = max(responses()$`Experience with Shiny`),
                     value = 1,
                     step=1)
-
-
   })
-
-
-
 
 
   maxBins <- reactive ({
@@ -110,7 +94,7 @@ server <- function(input, output) {
   })
 
 
-  output$binUI<- renderUI({
+  output$binUI <- renderUI({
       sliderInput("bins",
                 "Number of Groups to Make:",
                 min = 1,
@@ -119,14 +103,12 @@ server <- function(input, output) {
                 step=1)
   })
 
+
   namesAndPhotos <- reactive({
 
-      fuzzyGrep<- responses()$`What is your name? (First and Last)` %>%
-      # Fuzzy string match, but non-matches are returned as "integer(0)"
-      map(~agrep(.,memberInfo$name)) %>%
-
-      # Change "integer(0)" to NA
-      map_int(1,.null=NA)
+     # Fuzzy string match, but non-matches are returned as "integer(0)"
+           # Change "integer(0)" to NA
+      fuzzyGrep <- responses()$`What is your name? (First and Last)` %>% map(~agrep(., memberInfo$name)) %>% map_int(1,.null=NA)
 
       # We needed NA instead of NULL, to keep the vector length consistent
       photosVector <- memberInfo$photo.photo_link[fuzzyGrep]
@@ -134,14 +116,14 @@ server <- function(input, output) {
 
       # This is what a call to namesAndPhotos() will return. A list of length 2, containing a vector
       # of names and a vector of photos, in matching order
-      bind_cols("What is your name? (First and Last)"=namesVector,photos=photosVector)
+      bind_cols("What is your name? (First and Last)" = namesVector, photos=photosVector)
   })
 
 
   output$htmlTable <- renderUI({
 
     # Combine the two tibbles (google form data and meetup API data) by participant name
-    namesAndPhotosJoined<-left_join(namesAndPhotos(),responses(),by="What is your name? (First and Last)")
+    namesAndPhotosJoined <- left_join(namesAndPhotos(),responses(), by="What is your name? (First and Last)")
 
     # If the user selects to split into more than one group (bin) then make make groups
     if(input$bins > 1){
@@ -166,15 +148,14 @@ server <- function(input, output) {
       aboveSplit %<>% mutate(Group=randomizedAboveSplit) %>% split(.$Group)
 
       # Combines aboveSplit and belowSplit for each group
-      groups<- lapply(1:length(aboveSplit),function(x){
+      groups <- lapply(1:length(aboveSplit),function(x){
                   bind_rows(aboveSplit[x],belowSplit[x])
                })
 
     }else{
       # If there is only one group to be made:
-      groups<-list(namesAndPhotosJoined)
+      groups <- list(namesAndPhotosJoined)
     }
-
 
 
     # Unecessary, but simplify groups to only contain name and photo columns
@@ -192,11 +173,11 @@ server <- function(input, output) {
     # Then  we insert the each HTML table of groups into the columns of a big HTML table to organize the groups on the screen
 
     # htmlTableData output is a list of HTML tables, each element/table is a group of participants
-    htmlTableData<-function(inputGroup){lapply(1:nrow(inputGroup),function(x){
+    htmlTableData <- function(inputGroup){lapply(1:nrow(inputGroup), function(x){
                                            # Initiate a row object of an HTML table
                                           tags$tr(style = "border: 1px solid black",
                                                    # First column is participant name
-                                                  tags$td(pull(inputGroup,"What is your name? (First and Last)")[x]),
+                                                  tags$td(pull(inputGroup, "What is your name? (First and Last)")[x]),
                                                    # Second column is photo if found, if not "whoAmI.jpg" is inserted,
                                                    # which lives in www directory whichitself is in the same directory as app.R
                                                   tags$td(tags$img(src=if(is.na(pull(inputGroup,photos)[x])){
@@ -208,10 +189,8 @@ server <- function(input, output) {
                                         })}
 
 
-
-
     # This  function adds headers to the group HTMLtables
-    htmlTableHead<- function(inputDataHTML){
+    htmlTableHead <- function(inputDataHTML){
                           tags$td(
                             tags$table(style = "border: thin solid; padding: 1%; width: 100%;",
                                        tags$td(
@@ -227,13 +206,13 @@ server <- function(input, output) {
 
     # This is the function that initiates all the crazy HTML table stuff above. The output is a list.
     # Each list element contains the HTML table for a group
-    innerHtmlTables<-lapply(groups,htmlTableHead)
+    innerHtmlTables <- lapply(groups,htmlTableHead)
 
     # Create Group headers for the main "organizing" HTML table
     groupHeaders <- lapply(1:input$bins, function(x){ tags$th(paste0("Group ", x) )})
 
     # Create the main "organizing" HTML table, which places each group HTML table into a column with header of "Group XX"
-    mainHtmlTable<-tags$table(style = "border: thin solid; padding: 1%; width: 100%;",
+    mainHtmlTable <- tags$table(style = "border: thin solid; padding: 1%; width: 100%;",
                   tags$tr(style = "border: 1px solid black",
                           groupHeaders
                           ),
@@ -245,14 +224,11 @@ server <- function(input, output) {
   })
 
 
-
-
-
-
-
-  output$pp <-   renderPlot(
-                    plot(jitter(x=responses()$`Experience with R`,0.5),y=responses()$`Experience with Shiny`,xlim=c(1,10),ylim=c(1,10))
-                  )
+  output$pp <- renderPlot(
+                  plot(jitter(x=responses()$`Experience with R`,0.5), y=responses()$`Experience with Shiny`,
+                       xlim=c(min(responses()$`Experience with R`)-1,max(responses()$`Experience with R`)+1),
+                       ylim=c(min(responses()$`Experience with Shiny`)-1,max(responses()$`Experience with Shiny`)+1))
+               )
 
 
 

@@ -7,11 +7,11 @@ ui<- pageWithSidebar(
     numericInput('clusters', 'Cluster count', 3,
                  min = 1, max = 9),
     h4("Some things to consider:"),
-    p("How do reactive({}) expressions and input$ values work?
-      How are they set up?"),
+    p("What are reactive({}) expressions?"),
+    p("How do input$ values work?"),
+    p("What do they correspond to in the UI? (ie the \"xcol\" in \"input$xcol\""),
     p("What is k-means?"),
-    p("What are some other simple clustering methods?"),
-    p("How can we create another page with a different analysis?")
+    p("How could you offer another clustering option?")
   ),
 
   mainPanel(

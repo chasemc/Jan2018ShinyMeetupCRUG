@@ -5,4 +5,5 @@
 #' @examples
 #' openBeginnerExampleApp()
 
-openBeginnerExampleApp <- function()file.edit("Apps/BeginnerExample/app.R")
+#openBeginnerExampleApp <- function()file.edit("Apps/BeginnerExample/app.R")
+openBeginnerExampleApp <- function()print(getwd)
