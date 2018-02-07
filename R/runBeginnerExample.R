@@ -5,5 +5,8 @@
 #' @examples
 #' runBeginnerExample()
 
-runBeginnerExample <- function()shiny::runApp("Apps/BeginnerExample/app.R")
+runBeginnerExample <- function(){
 
+  shiny::runApp(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "BeginnerExample"),display.mode = "showcase")
+
+}

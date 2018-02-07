@@ -6,4 +6,10 @@
 #' openBeginnerExampleApp()
 
 #openBeginnerExampleApp <- function()file.edit("Apps/BeginnerExample/app.R")
-openBeginnerExampleApp <- function()print(getwd)
+openBeginnerExampleApp <- function(){
+
+  file.edit(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "BeginnerExample","app.R"))
+
+
+
+}

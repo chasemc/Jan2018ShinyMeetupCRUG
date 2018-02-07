@@ -5,4 +5,11 @@
 #' @examples
 #' openBeginnerIntermediateExampleApp()
 
-openBeginnerIntermediateExampleApp <- function()file.edit("Apps/Beginner-Intermediate/app.R")
+openBeginnerIntermediateExampleApp <- function(){
+
+  file.edit(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "Beginner-Intermediate","app.R"))
+
+}
+
+
+

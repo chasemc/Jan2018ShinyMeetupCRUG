@@ -5,4 +5,9 @@
 #' @examples
 #' runMeetupParticipantGroupingExample()
 
-runMeetupParticipantGroupingExample <- function()shiny::runApp("Apps/MeetupParticipantGrouping/app.R")
+runMeetupParticipantGroupingExample <- function(){
+
+  shiny::runApp(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "MeetupParticipantGrouping"))
+
+
+}

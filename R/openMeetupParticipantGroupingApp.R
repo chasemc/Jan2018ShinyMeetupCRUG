@@ -5,4 +5,10 @@
 #' @examples
 #' openMeetupParticipantGroupingExampleApp()
 
-openMeetupParticipantGroupingApp <- function()file.edit("Apps/MeetupParticipantGrouping/app.R")
+openMeetupParticipantGroupingApp <- function(){
+
+  file.edit(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "MeetupParticipantGrouping","app.R"))
+
+}
+
+

@@ -5,4 +5,11 @@
 #' @examples
 #' runBeginnerIntermediateExample()
 
-runBeginnerIntermediateExample <- function()shiny::runApp("Apps/Beginner-Intermediate/app.R")
+runBeginnerIntermediateExample <- function(){
+
+  shiny::runApp(file.path(find.package("Jan2018ShinyMeetupCRUG"),"Apps", "Beginner-Intermediate"))
+
+
+}
+
+
