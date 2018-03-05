@@ -19,7 +19,7 @@ library(magrittr)
 # Read current list of people attending the "Happy New YeaR!" CRUG meetup
 # To make the app read an actusal API, uncomment the readJSON and delete the readRDS line
 
-# listFromAPI<-read_json("https://api.meetup.com/ChicagoRUG/events/245872598/rsvps?photo-host=public&sig_id=233599547&sig=7a3d4fd40ce7529025f30a0f0839c346c55a4fc5")
+# listFromAPI<-read_json(" ")
 
 listFromAPI <- readRDS("C:/Users/CMC/Documents/GitHub/Jan2017MeetupShiny/Workshop/ll.rds")
 
